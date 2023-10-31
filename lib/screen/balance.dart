@@ -21,7 +21,10 @@ class BalanceScreenState extends State<BalanceScreen> {
   // late List<Theme3Dish> mListings;
   bool isLoading = false;
   final ScrollController _controller = ScrollController();
-  List<Balance> balanceType = [Balance("House Balance", "45,000.00"), Balance("School Balance", "40,000.00")];
+  int activeIndex = 0;
+  FocusNode colorFocus = FocusNode();
+  FocusNode whiteFocus = FocusNode();
+  List<Balance> balanceType = [Balance("House Balance", "45,000.00"), Balance("School Balance", "40,000.00"), Balance("Work Balance", "59,000.00"), Balance("Salary Balance", "61,000.00")];
 
   @override
   void initState() {
@@ -88,7 +91,43 @@ class BalanceScreenState extends State<BalanceScreen> {
                   shrinkWrap: true,
                   controller: _controller,
                   itemBuilder: (context, index) {
-                    return index.isEven ? BalanceList2(balanceType[index], index) : BalanceList(balanceType[index], index);
+                    return activeIndex == index ? InkWell(
+                        onTap: (){
+                          setState(() {
+                            activeIndex = index;
+                          });
+                        },
+                      onHover: (c){
+                        setState(() {
+                          activeIndex = index;
+                        });
+                      },
+                      onFocusChange: (f){
+                        setState(() {
+                          activeIndex = index;
+                        });
+                      },
+                      focusNode: colorFocus,
+                        child: BalanceList2(balanceType[index], index),
+                    ) : InkWell(
+                      onTap: (){
+                        setState(() {
+                          activeIndex = index;
+                        });
+                      },
+                      onHover: (c){
+                        setState(() {
+                          activeIndex = index;
+                        });
+                      },
+                      onFocusChange: (f){
+                        setState(() {
+                          activeIndex = index;
+                        });
+                      },
+                      focusNode: whiteFocus,
+                        child: BalanceList(balanceType[index], index),
+                    );
                   },
                 ),
               ),
